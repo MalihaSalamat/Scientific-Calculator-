@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SciCalc — Maliha Salamat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════ -->
+  <header class="app-header" role="banner">
+    <div class="app-header__icon" aria-hidden="true"></div>
+    <h1 class="app-header__title"><span>Miss</span>Cal</h1>
+  </header>
+
+  <!-- ══════════════════════════════════════════
+       MAIN CALCULATOR
+  ══════════════════════════════════════════ -->
+  <main>
+    <section class="calc-shell" aria-label="Scientific Calculator">
+
+      <!-- ── Display Screen ── -->
+      <div class="display" id="js-display" role="region" aria-label="Calculator display" aria-live="polite">
+
+        <!-- Status bar -->
+        <div class="display__status">
+          <button
+            class="display__badge"
+            id="js-angle-badge"
+            aria-label="Angle mode, click to toggle"
+            aria-pressed="false"
+          >DEG</button>
+          <span
+            class="display__mem-flag"
+            id="js-mem-flag"
+            aria-label="Memory active"
+          >M</span>
+        </div>
+
+        <!-- Expression (secondary row) -->
+        <output class="display__expression" id="js-expr" aria-label="Current expression"></output>
+
+        <!-- Result (primary row) -->
+        <output class="display__result" id="js-result" aria-label="Current result" aria-atomic="true">0</output>
+
+      </div>
+
+      <!-- ── Mode Bar ── -->
+      <div class="mode-bar" role="group" aria-label="Angle mode selector">
+        <span class="mode-bar__label">Angle</span>
+        <div class="mode-bar__toggle">
+          <button class="mode-bar__opt is-active" data-mode="DEG" aria-pressed="true">DEG</button>
+          <button class="mode-bar__opt"           data-mode="RAD" aria-pressed="false">RAD</button>
+        </div>
+      </div>
+
+      <!-- ── Keypad ── -->
+      <div class="keypad" id="js-keypad" role="group" aria-label="Calculator keys">
+
+        <!-- Memory Row -->
+        <div class="row--memory" role="group" aria-label="Memory functions">
+          <button class="btn btn--mem" data-action="mc"     aria-label="Memory Clear">MC</button>
+          <button class="btn btn--mem" data-action="mr"     aria-label="Memory Recall">MR</button>
+          <button class="btn btn--mem" data-action="mplus"  aria-label="Memory Add">M+</button>
+          <button class="btn btn--mem" data-action="mminus" aria-label="Memory Subtract">M−</button>
+        </div>
+
+        <!-- Scientific Row 1 -->
+        <div class="row--sci" role="group" aria-label="Trigonometric functions">
+          <button class="btn btn--sci" data-action="sin"  aria-label="Sine">sin</button>
+          <button class="btn btn--sci" data-action="cos"  aria-label="Cosine">cos</button>
+          <button class="btn btn--sci" data-action="tan"  aria-label="Tangent">tan</button>
+          <button class="btn btn--sci" data-action="log"  aria-label="Logarithm base 10">log</button>
+        </div>
+
+        <!-- Scientific Row 2 -->
+        <div class="row--sci" role="group" aria-label="Advanced functions">
+          <button class="btn btn--sci" data-action="ln"   aria-label="Natural logarithm">ln</button>
+          <button class="btn btn--sci" data-action="sqrt" aria-label="Square root">√x</button>
+          <button class="btn btn--sci" data-action="sq"   aria-label="Square">x²</button>
+          <button class="btn btn--sci" data-action="pow"  aria-label="Power">xʸ</button>
+        </div>
+
+        <!-- Divider -->
+        <div class="keypad__divider" role="separator" aria-hidden="true"></div>
+
+        <!-- Main Keypad Grid -->
+        <div class="row--main" role="group" aria-label="Main keypad">
+
+          <!-- Row: util + back + clear -->
+          <button class="btn btn--util"  data-action="paren"   aria-label="Parenthesis">(  )</button>
+          <button class="btn btn--util"  data-action="percent" aria-label="Percent">%</button>
+          <button class="btn btn--back"  data-action="back"    aria-label="Backspace">⌫</button>
+          <button class="btn btn--clear" data-action="clear"   aria-label="All clear">AC</button>
+
+          <!-- Row 7–9 ÷ -->
+          <button class="btn btn--digit" data-action="7" aria-label="7">7</button>
+          <button class="btn btn--digit" data-action="8" aria-label="8">8</button>
+          <button class="btn btn--digit" data-action="9" aria-label="9">9</button>
+          <button class="btn btn--op"    data-action="÷" aria-label="Divide">÷</button>
+
+          <!-- Row 4–6 × -->
+          <button class="btn btn--digit" data-action="4" aria-label="4">4</button>
+          <button class="btn btn--digit" data-action="5" aria-label="5">5</button>
+          <button class="btn btn--digit" data-action="6" aria-label="6">6</button>
+          <button class="btn btn--op"    data-action="×" aria-label="Multiply">×</button>
+
+          <!-- Row 1–3 − -->
+          <button class="btn btn--digit" data-action="1" aria-label="1">1</button>
+          <button class="btn btn--digit" data-action="2" aria-label="2">2</button>
+          <button class="btn btn--digit" data-action="3" aria-label="3">3</button>
+          <button class="btn btn--op"    data-action="−" aria-label="Subtract">−</button>
+
+          <!-- Row +/- 0 . + -->
+          <button class="btn btn--util"  data-action="negate" aria-label="Toggle sign">+/−</button>
+          <button class="btn btn--digit" data-action="0"      aria-label="0">0</button>
+          <button class="btn btn--digit" data-action="."      aria-label="Decimal point">.</button>
+          <button class="btn btn--op"    data-action="+"      aria-label="Add">+</button>
+
+          <!-- Equals (full width) -->
+          <button class="btn btn--eq col-span-4" data-action="=" aria-label="Equals">=</button>
+
+        </div><!-- /row--main -->
+
+      </div><!-- /keypad -->
+
+    </section>
+  </main>
+
+  <!-- ══════════════════════════════════════════
+       TOAST
+  ══════════════════════════════════════════ -->
+  <div class="toast" id="js-toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="app-footer" role="contentinfo">
+    <div class="app-footer__rule" aria-hidden="true">
+      <div class="app-footer__diamond"></div>
+    </div>
+    <p class="app-footer__credit">
+      Developed by <strong>Maliha Salamat</strong>
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
